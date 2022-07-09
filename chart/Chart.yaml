@@ -1,0 +1,22 @@
+apiVersion: v2
+name: inventree
+description: Helm chart for Inventree - an Open Source Inventory Management System
+type: application
+version: 0.1.0
+appVersion: 0.7.4
+keywords:
+  - Inventree
+home: https://Inventree.io/
+sources:
+  - https://inventree.readthedocs.io/en/latest/
+  - https://inventree.readthedocs.io/en/latest/
+maintainers:
+  - name: Mike D
+    email: mike@zeroent.net
+icon: https://inventree.readthedocs.io/en/latest/assets/logo.png
+# dependencies:
+#   - name: postgresql
+#     version: 8.0.0
+#     repository: https://charts.bitnami.com/bitnami
+#     condition: postgresql.enabled
+dependencies: []

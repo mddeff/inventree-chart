@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f resolved.yaml -v -c -o result
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: inventree-db
+  name: inventree-db
+spec:
+  podManagementPolicy: OrderedReady
+  serviceName: inventree-db
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: inventree-db
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f resolved.yaml -v -c -o result
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/default: "true"
+        io.kompose.service: inventree-db
+    spec:
+      containers:
+      - image: postgres:13
+        imagePullPolicy: ""
+        name: inventree-db
+        ports:
+          - containerPort: 5432
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: inventree-db
+        envFrom:
+        - configMapRef:
+            name: postgres-config
+        - secretRef:
+            name: postgres-secret
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: inventree-db
+        persistentVolumeClaim:
+          claimName: inventree-db

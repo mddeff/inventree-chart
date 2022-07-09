@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f resolved.yaml -v -c -o result
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: inventree-cache
+  name: inventree-cache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: inventree-cache
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f resolved.yaml -v -c -o result
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/default: "true"
+        io.kompose.service: inventree-cache
+    spec:
+      containers:
+        - name: inventree-cache
+          image: redis:7.0
+          imagePullPolicy: ""
+          ports:
+          - containerPort: 6379
+          resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}

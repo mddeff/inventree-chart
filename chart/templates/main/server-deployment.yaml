@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f resolved.yaml -v -c -o result
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: inventree-server
+  name: inventree-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: inventree-server
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f resolved.yaml -v -c -o result
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/default: "true"
+        io.kompose.service: inventree-server
+    spec:
+      initContainers:
+      - image: inventree/inventree:stable
+        imagePullPolicy: ""
+        name: inventree-provison-db
+        resources: {}
+        volumeMounts:
+          - mountPath: /home/inventree/data
+            name: inventree-data
+        args:
+          - invoke
+          - update
+        env:
+        - name: INVENTREE_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+        envFrom:
+        - configMapRef:
+            name: inventree-config
+        - configMapRef:
+            name: inventree-db-client-config
+      containers:
+      - image: inventree/inventree:stable
+        imagePullPolicy: ""
+        name: inventree-server
+        ports:
+        - containerPort: 8000
+        resources: {}
+        volumeMounts:
+        - mountPath: /home/inventree/data
+          name: inventree-data
+        env:
+        - name: INVENTREE_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+        envFrom:
+        - configMapRef:
+            name: inventree-config
+        - configMapRef:
+            name: inventree-db-client-config
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: inventree-data
+        persistentVolumeClaim:
+          claimName: inventree-data
