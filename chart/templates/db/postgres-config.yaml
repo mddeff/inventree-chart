@@ -1,10 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: postgres-config
-  annotations:
+  name: {{ include "inventree.name" . }}-postgres-config
+  annotations: {}
   labels:
-  namespace: inventree
 data:
   PGDATA: "/var/lib/postgresql/data/pgdb"
   POSTGRES_DB: "inventree"

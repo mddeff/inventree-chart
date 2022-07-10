@@ -16,7 +16,6 @@ spec:
       annotations:
         kompose.cmd: kompose convert -f resolved.yaml -v -c -o result
         kompose.version: 1.21.0 (992df58d8)
-      creationTimestamp: null
       labels:
         io.kompose.service: inventree-worker
     spec:
@@ -25,32 +24,16 @@ spec:
         - invoke
         - worker
         env:
-        - name: COMPOSE_PROJECT_NAME
-          value: inventree-production
-        - name: INVENTREE_CACHE_HOST
-          value: inventree-cache.inventree.svc.cluster.local
-        - name: INVENTREE_CACHE_PORT
-          value: "6379"
-        - name: INVENTREE_DB_ENGINE
-          value: postgresql
-        - name: INVENTREE_DB_HOST
-          value: inventree-db.inventree.svc.cluster.local
-        - name: INVENTREE_DB_NAME
-          value: inventree
         - name: INVENTREE_DB_PASSWORD
-          value: kjsnovu8b24ogujbw9d8hvuo23bf9uw8hfdvb0in2egoubw0dvubnb213u0fb9wuebrv09iu8wnrgf
-        - name: INVENTREE_DB_PORT
-          value: "5432"
-        - name: INVENTREE_DB_USER
-          value: pguser
-        - name: INVENTREE_DEBUG
-          value: "False"
-        - name: INVENTREE_LOG_LEVEL
-          value: WARNING
-        - name: INVENTREE_PLUGINS_ENABLED
-          value: "False"
-        - name: INVENTREE_WEB_PORT
-          value: "1337"
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "inventree.name" . }}-postgres-secret
+              key: POSTGRES_PASSWORD
+        envFrom:
+        - configMapRef:
+            name: {{ include "inventree.name" . }}-config
+        - configMapRef:
+            name: {{ include "inventree.name" . }}-db-client-config
         image: inventree/inventree:stable
         imagePullPolicy: ""
         name: inventree-worker

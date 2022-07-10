@@ -1,10 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: inventree-proxy-config
-  annotations:
+  name: {{ include "inventree.name" . }}-proxy-config
+  annotations: {}
   labels:
-  namespace: inventree
 data:
   default.conf: |-
     server {

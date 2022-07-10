@@ -1,19 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f resolved.yaml -v -c -o result
-    kompose.version: 1.21.0 (992df58d8)
-  creationTimestamp: null
+  annotations: {}
   labels:
-    io.kompose.service: inventree-cache
-  name: inventree-cache
+    io.kompose.service: {{ include "inventree.name" . }}-cache
+  name: {{ include "inventree.name" . }}-cache
 spec:
   ports:
   - name: "6379"
     port: 6379
     targetPort: 6379
   selector:
-    io.kompose.service: inventree-cache
-status:
-  loadBalancer: {}
+    io.kompose.service: {{ include "inventree.name" . }}-cache
+

@@ -6,3 +6,9 @@ postgres:
 proxy:
 
 ingress:
+
+
+
+
+nameOverride: ""
+fullnameOverride: ""

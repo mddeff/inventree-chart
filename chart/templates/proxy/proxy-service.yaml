@@ -1,19 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f resolved.yaml -v -c -o result
-    kompose.version: 1.21.0 (992df58d8)
-  creationTimestamp: null
+  annotations: {}
   labels:
-    io.kompose.service: inventree-proxy
-  name: inventree-proxy
+    io.kompose.service: {{ include "inventree.name" . }}-proxy
+  name: {{ include "inventree.name" . }}-proxy
 spec:
   ports:
   - name: "web"
     port: 80
     targetPort: 80
   selector:
-    io.kompose.service: inventree-proxy
-status:
-  loadBalancer: {}
+    io.kompose.service: {{ include "inventree.name" . }}-proxy
+

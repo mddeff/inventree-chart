@@ -1,14 +1,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  creationTimestamp: null
   labels:
-    io.kompose.service: inventree-data
-  name: inventree-data
+    io.kompose.service: {{ include "inventree.name" . }}-data
+  name: {{ include "inventree.name" . }}-data
 spec:
   accessModes:
   - ReadWriteMany
   resources:
     requests:
       storage: 5Gi
-status: {}
