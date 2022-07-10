@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "inventree.name" . }}-postgres-config
+  name: {{ include "inventree.fullname" . }}-postgres-config
   annotations: {}
   labels:
 data:

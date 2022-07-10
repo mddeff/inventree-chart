@@ -4,10 +4,10 @@ metadata:
   annotations: {}
   labels:
     io.kompose.service: {{ include "inventree.name" . }}-db
-  name: {{ include "inventree.name" . }}-db
+  name: {{ include "inventree.fullname" . }}-db
 spec:
   podManagementPolicy: OrderedReady
-  serviceName: {{ include "inventree.name" . }}-db
+  serviceName: {{ include "inventree.fullname" . }}-db
   replicas: 1
   selector:
     matchLabels:
@@ -15,30 +15,27 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f resolved.yaml -v -c -o result
-        kompose.version: 1.21.0 (992df58d8)
       labels:
-        io.kompose.network/default: "true"
         io.kompose.service: {{ include "inventree.name" . }}-db
     spec:
       containers:
       - image: postgres:13
         imagePullPolicy: ""
-        name: {{ include "inventree.name" . }}-db
+        name: {{ include "inventree.fullname" . }}-db
         ports:
           - containerPort: 5432
         resources: {}
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: {{ include "inventree.name" . }}-db
+          name: {{ include "inventree.fullname" . }}-db
         envFrom:
         - configMapRef:
-            name: {{ include "inventree.name" . }}-postgres-config
+            name: {{ include "inventree.fullname" . }}-postgres-config
         - secretRef:
-            name: {{ include "inventree.name" . }}-postgres-secret
+            name: {{ include "inventree.fullname" . }}-postgres-secret
       restartPolicy: Always
       serviceAccountName: ""
       volumes:
-      - name: {{ include "inventree.name" . }}-db
+      - name: {{ include "inventree.fullname" . }}-db
         persistentVolumeClaim:
-          claimName: {{ include "inventree.name" . }}-db
+          claimName: {{ include "inventree.fullname" . }}-db

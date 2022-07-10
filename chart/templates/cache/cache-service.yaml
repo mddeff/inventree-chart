@@ -3,13 +3,13 @@ kind: Service
 metadata:
   annotations: {}
   labels:
-    io.kompose.service: {{ include "inventree.name" . }}-cache
-  name: {{ include "inventree.name" . }}-cache
+    app.kubernetes.io/service: {{ include "inventree.name" . }}-cache
+  name: {{ include "inventree.fullname" . }}-cache
 spec:
   ports:
   - name: "6379"
     port: 6379
     targetPort: 6379
   selector:
-    io.kompose.service: {{ include "inventree.name" . }}-cache
+    app.kubernetes.io/service: {{ include "inventree.name" . }}-cache
 

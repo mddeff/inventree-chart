@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     io.kompose.service: {{ include "inventree.name" . }}-data
-  name: {{ include "inventree.name" . }}-data
+  name: {{ include "inventree.fullname" . }}-data
 spec:
   accessModes:
   - ReadWriteMany

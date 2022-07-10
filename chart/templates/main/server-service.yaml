@@ -4,7 +4,7 @@ metadata:
   annotations: {}
   labels:
     io.kompose.service: {{ include "inventree.name" . }}-server
-  name: {{ include "inventree.name" . }}-server
+  name: {{ include "inventree.fullname" . }}-server
 spec:
   ports:
   - name: "8000"

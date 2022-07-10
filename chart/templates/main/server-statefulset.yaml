@@ -3,11 +3,11 @@ kind: StatefulSet
 metadata:
   annotations: {}
   labels:
-    io.kompose.service: {{ include "inventree.name" . }}-server
-  name: {{ include "inventree.name" . }}-server
+    io.kompose.service: {{ include "inventree.fullname" . }}-server
+  name: {{ include "inventree.fullname" . }}-server
 spec:
   podManagementPolicy: OrderedReady
-  serviceName: {{ include "inventree.name" . }}-server
+  serviceName: {{ include "inventree.fullname" . }}-server
   replicas: 1
   selector:
     matchLabels:
@@ -15,20 +15,17 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f resolved.yaml -v -c -o result
-        kompose.version: 1.21.0 (992df58d8)
       labels:
-        io.kompose.network/default: "true"
         io.kompose.service: {{ include "inventree.name" . }}-server
     spec:
       initContainers:
       - image: inventree/inventree:stable
         imagePullPolicy: ""
-        name: {{ include "inventree.name" . }}-provison-db
+        name: {{ include "inventree.fullname" . }}-provison-db
         resources: {}
         volumeMounts:
           - mountPath: /home/inventree/data
-            name: {{ include "inventree.name" . }}-data
+            name: {{ include "inventree.fullname" . }}-data
         args:
           - invoke
           - update
@@ -36,37 +33,37 @@ spec:
         - name: INVENTREE_DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ include "inventree.name" . }}-postgres-secret
+              name: {{ include "inventree.fullname" . }}-postgres-secret
               key: POSTGRES_PASSWORD
         envFrom:
         - configMapRef:
-            name: {{ include "inventree.name" . }}-config
+            name: {{ include "inventree.fullname" . }}-config
         - configMapRef:
-            name: {{ include "inventree.name" . }}-db-client-config
+            name: {{ include "inventree.fullname" . }}-db-client-config
       containers:
       - image: inventree/inventree:stable
         imagePullPolicy: ""
-        name: {{ include "inventree.name" . }}-server
+        name: {{ include "inventree.fullname" . }}-server
         ports:
         - containerPort: 8000
         resources: {}
         volumeMounts:
         - mountPath: /home/inventree/data
-          name: {{ include "inventree.name" . }}-data
+          name: {{ include "inventree.fullname" . }}-data
         env:
         - name: INVENTREE_DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ include "inventree.name" . }}-postgres-secret
+              name: {{ include "inventree.fullname" . }}-postgres-secret
               key: POSTGRES_PASSWORD
         envFrom:
         - configMapRef:
-            name: {{ include "inventree.name" . }}-config
+            name: {{ include "inventree.fullname" . }}-config
         - configMapRef:
-            name: {{ include "inventree.name" . }}-db-client-config
+            name: {{ include "inventree.fullname" . }}-db-client-config
       restartPolicy: Always
       serviceAccountName: ""
       volumes:
-      - name: {{ include "inventree.name" . }}-data
+      - name: {{ include "inventree.fullname" . }}-data
         persistentVolumeClaim:
-          claimName: {{ include "inventree.name" . }}-data
+          claimName: {{ include "inventree.fullname" . }}-data

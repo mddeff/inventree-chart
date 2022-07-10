@@ -4,7 +4,7 @@ metadata:
   annotations: {}
   labels:
     io.kompose.service: {{ include "inventree.name" . }}-db
-  name: {{ include "inventree.name" . }}-db
+  name: {{ include "inventree.fullname" . }}-db
 spec:
   ports:
   - name: "postgres"

@@ -2,22 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: inventree-worker
-  name: inventree-worker
+    io.kompose.service: {{ include "inventree.fullname" . }}-worker
+  name: {{ include "inventree.fullname" . }}-worker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: inventree-worker
+      io.kompose.service: {{ include "inventree.fullname" . }}-worker
   strategy:
     type: Recreate
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f resolved.yaml -v -c -o result
-        kompose.version: 1.21.0 (992df58d8)
       labels:
-        io.kompose.service: inventree-worker
+        io.kompose.service: {{ include "inventree.fullname" . }}-worker
     spec:
       containers:
       - args:
@@ -27,13 +25,13 @@ spec:
         - name: INVENTREE_DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ include "inventree.name" . }}-postgres-secret
+              name: {{ include "inventree.fullname" . }}-postgres-secret
               key: POSTGRES_PASSWORD
         envFrom:
         - configMapRef:
-            name: {{ include "inventree.name" . }}-config
+            name: {{ include "inventree.fullname" . }}-config
         - configMapRef:
-            name: {{ include "inventree.name" . }}-db-client-config
+            name: {{ include "inventree.fullname" . }}-db-client-config
         image: inventree/inventree:stable
         imagePullPolicy: ""
         name: inventree-worker
@@ -46,4 +44,4 @@ spec:
       volumes:
       - name: inventree-data
         persistentVolumeClaim:
-          claimName: inventree-data
+          claimName: {{ include "inventree.fullname" . }}-data

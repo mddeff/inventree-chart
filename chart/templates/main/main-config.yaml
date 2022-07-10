@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "inventree.name" . }}-config
+  name: {{ include "inventree.fullname" . }}-config
   annotations: {}
   labels:
 data:
-  INVENTREE_CACHE_HOST: {{ include "inventree.name" . }}-cache.{{ .Release.Namespace }}.svc.cluster.local
+  INVENTREE_CACHE_HOST: {{ include "inventree.fullname" . }}-cache.{{ .Release.Namespace }}.svc.cluster.local
   INVENTREE_CACHE_PORT: "6379"
   INVENTREE_DEBUG: "False"
   INVENTREE_LOG_LEVEL: WARNING

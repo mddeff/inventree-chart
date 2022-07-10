@@ -4,7 +4,7 @@ metadata:
   annotations: {}
   labels:
     io.kompose.service: {{ include "inventree.name" . }}-proxy
-  name: {{ include "inventree.name" . }}-proxy
+  name: {{ include "inventree.fullname" . }}-proxy
 spec:
   ports:
   - name: "web"

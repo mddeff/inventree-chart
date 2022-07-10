@@ -3,25 +3,26 @@ kind: Deployment
 metadata:
   annotations: {}
   labels:
-    io.kompose.service: {{ include "inventree.name" . }}-cache
-  name: {{ include "inventree.name" . }}-cache
+    {{- include "inventree.labels" . | nindent 4 -}}
+    {{- include "inventree.cache.labels" . | nindent 4 -}}
+    app.kubernetes.io/service: {{ include "inventree.name" . }}-cache
+  name: {{ include "inventree.fullname" . }}-cache
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: {{ include "inventree.name" . }}-cache
+      app.kubernetes.io/service: {{ include "inventree.name" . }}-cache
   strategy: {}
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f resolved.yaml -v -c -o result
-        kompose.version: 1.21.0 (992df58d8)
       labels:
-        io.kompose.network/default: "true"
-        io.kompose.service: {{ include "inventree.name" . }}-cache
+        {{- include "inventree.labels" . | nindent 8 -}}
+        {{- include "inventree.cache.labels" . | nindent 8 -}}
+        app.kubernetes.io/service: {{ include "inventree.name" . }}-cache
     spec:
       containers:
-        - name: {{ include "inventree.name" . }}-cache
+        - name: {{ include "inventree.fullname" . }}-cache
           image: redis:7.0
           imagePullPolicy: ""
           ports:

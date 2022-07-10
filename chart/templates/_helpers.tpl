@@ -40,8 +40,41 @@ helm.sh/chart: {{ include "inventree.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/name: "inventree"
+app.kubernetes.io/name: {{ include "inventree.fullname" . | quote }}
+{{- range $key, $val := .Values.global.labels -}}
+{{ $key }}: {{ $val }}
+{{- end }}
 {{- end -}}
+
+
+
+
+
+
+
+
+{{/*
+Cache specific labels
+*/}}
+{{- define "inventree.cache.labels" -}}
+{{- range $key, $val := .Values.cache.labels -}}
+{{ $key }}: {{ $val }}
+{{- end }}
+{{- end -}}
+
+
+
+
+
+
+
+#NOT IN USE BELOW THIS LINE
+#===============================================================
+
+
+
+
+
 # TODO: Include labels from values
 {{/*
 Synapse specific labels
@@ -71,14 +104,7 @@ Coturn specific labels
 {{- end }}
 {{- end -}}
 
-{{/*
-Mail relay specific labels
-*/}}
-{{- define "inventree.mail.labels" -}}
-{{- range $key, $val := .Values.mail.relay.labels -}}
-{{ $key }}: {{ $val }}
-{{- end }}
-{{- end -}}
+
 
 {{/*
 Synapse hostname, derived from either the Values.inventree.hostname override or the Ingress definition

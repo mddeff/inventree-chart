@@ -1,7 +1,11 @@
 ---
+global:
+  imageRegistry:
+  labels:
 server:
 worker:
 cache:
+  labels:
 postgres:
 proxy:
 
@@ -12,3 +16,4 @@ ingress:
 
 nameOverride: ""
 fullnameOverride: ""
+
