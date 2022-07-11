@@ -3,24 +3,24 @@ kind: Deployment
 metadata:
   annotations: {}
   labels:
-    io.kompose.service: {{ include "inventree.name" . }}-proxy
+    app.kubernetes.io/component: {{ include "inventree.fullname" . }}-proxy
   name: {{ include "inventree.fullname" . }}-proxy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: {{ include "inventree.name" . }}-proxy
+      app.kubernetes.io/component: {{ include "inventree.fullname" . }}-proxy
   strategy:
     type: Recreate
   template:
     metadata:
       annotations:
       labels:
-        io.kompose.service: {{ include "inventree.name" . }}-proxy
+        app.kubernetes.io/component: {{ include "inventree.fullname" . }}-proxy
     spec:
       containers:
-      - image: nginx:stable
-        imagePullPolicy: ""
+      - image: "{{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}"
+        imagePullPolicy: "{{ .Values.proxy.image.pullPolicy }}"
         name: {{ include "inventree.fullname" . }}-proxy
         ports:
         - containerPort: 80

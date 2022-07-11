@@ -32,8 +32,8 @@ spec:
             name: {{ include "inventree.fullname" . }}-config
         - configMapRef:
             name: {{ include "inventree.fullname" . }}-db-client-config
-        image: inventree/inventree:stable
-        imagePullPolicy: ""
+        image: "{{ .Values.worker.image.repository }}:{{ .Values.worker.image.tag }}"
+        imagePullPolicy: "{{ .Values.worker.image.pullPolicy }}"
         name: inventree-worker
         resources: {}
         volumeMounts:

@@ -11,16 +11,16 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: {{ include "inventree.name" . }}-server
+      app.kubernetes.io/component: {{ include "inventree.fullname" . }}-server
   template:
     metadata:
       annotations:
       labels:
-        io.kompose.service: {{ include "inventree.name" . }}-server
+        app.kubernetes.io/component: {{ include "inventree.fullname" . }}-server
     spec:
       initContainers:
-      - image: inventree/inventree:stable
-        imagePullPolicy: ""
+      - image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
+        imagePullPolicy: "{{ .Values.server.image.pullPolicy }}"
         name: {{ include "inventree.fullname" . }}-provison-db
         resources: {}
         volumeMounts:
@@ -41,8 +41,8 @@ spec:
         - configMapRef:
             name: {{ include "inventree.fullname" . }}-db-client-config
       containers:
-      - image: inventree/inventree:stable
-        imagePullPolicy: ""
+      - image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
+        imagePullPolicy: "{{ .Values.server.image.pullPolicy }}"
         name: {{ include "inventree.fullname" . }}-server
         ports:
         - containerPort: 8000

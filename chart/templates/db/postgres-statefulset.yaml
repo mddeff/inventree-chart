@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   annotations: {}
   labels:
-    io.kompose.service: {{ include "inventree.name" . }}-db
+    app.kubernetes.io/component: {{ include "inventree.fullname" . }}-db
   name: {{ include "inventree.fullname" . }}-db
 spec:
   podManagementPolicy: OrderedReady
@@ -11,16 +11,16 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: {{ include "inventree.name" . }}-db
+      app.kubernetes.io/component: {{ include "inventree.fullname" . }}-db
   template:
     metadata:
       annotations:
       labels:
-        io.kompose.service: {{ include "inventree.name" . }}-db
+        app.kubernetes.io/component: {{ include "inventree.fullname" . }}-db
     spec:
       containers:
-      - image: postgres:13
-        imagePullPolicy: ""
+      - image: "{{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}"
+        imagePullPolicy: "{{ .Values.postgres.image.pullPolicy }}"
         name: {{ include "inventree.fullname" . }}-db
         ports:
           - containerPort: 5432

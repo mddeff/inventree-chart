@@ -3,7 +3,7 @@ kind: Service
 metadata:
   annotations: {}
   labels:
-    io.kompose.service: {{ include "inventree.name" . }}-server
+    app.kubernetes.io/component: {{ include "inventree.fullname" . }}-server
   name: {{ include "inventree.fullname" . }}-server
 spec:
   ports:
@@ -11,5 +11,5 @@ spec:
     port: 8000
     targetPort: 8000
   selector:
-    io.kompose.service: {{ include "inventree.name" . }}-server
+    app.kubernetes.io/component: {{ include "inventree.fullname" . }}-server
 

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    io.kompose.service: {{ include "inventree.name" . }}-db
+    app.kubernetes.io/component: {{ include "inventree.fullname" . }}-db
   name: {{ include "inventree.fullname" . }}-db
 spec:
   accessModes:

@@ -3,11 +3,33 @@ global:
   imageRegistry:
   labels:
 server:
+  image:
+    repository: "inventree/inventree"
+    tag: "0.7.4"
+    pullPolicy:
 worker:
-cache:
+  image:
+    repository: "inventree/inventree"
+    tag: "0.7.4"
+    pullPolicy:
+redis:
   labels:
+  image:
+    repository: "redis"
+    tag: "7.0"
+    pullPolicy:
+
 postgres:
+  image:
+    repository: "postgres"
+    tag: "13"
+    pullPolicy:
+
 proxy:
+  image:
+    repository: "nginx"
+    tag: "stable"
+    pullPolicy:
 
 ingress:
 

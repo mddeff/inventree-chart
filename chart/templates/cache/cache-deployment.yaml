@@ -23,8 +23,8 @@ spec:
     spec:
       containers:
         - name: {{ include "inventree.fullname" . }}-cache
-          image: redis:7.0
-          imagePullPolicy: ""
+          image: "{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}"
+          imagePullPolicy: "{{ .Values.redis.image.pullPolicy }}"
           ports:
           - containerPort: 6379
           resources: {}

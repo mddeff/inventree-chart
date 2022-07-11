@@ -57,7 +57,7 @@ app.kubernetes.io/name: {{ include "inventree.fullname" . | quote }}
 Cache specific labels
 */}}
 {{- define "inventree.cache.labels" -}}
-{{- range $key, $val := .Values.cache.labels -}}
+{{- range $key, $val := .Values.redis.labels -}}
 {{ $key }}: {{ $val }}
 {{- end }}
 {{- end -}}
