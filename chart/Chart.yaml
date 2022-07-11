@@ -8,12 +8,12 @@ keywords:
   - Inventree
 home: https://Inventree.io/
 sources:
-  - https://inventree.readthedocs.io/en/latest/
+  - https://github.com/inventree/InvenTree/tree/stable
   - https://inventree.readthedocs.io/en/latest/
 maintainers:
   - name: Mike D
     email: mike@zeroent.net
-icon: https://inventree.readthedocs.io/en/latest/assets/logo.png
+icon: https://github.com/inventree/InvenTree/raw/stable/images/logo/inventree.png
 # dependencies:
 #   - name: postgresql
 #     version: 8.0.0
