@@ -33,6 +33,10 @@ proxy:
 
 ingress:
   enabled: false
+  labels:
+  annotations:
+  host: ""
+  path: "/"
 
 
 #traefik ingressRoute - only use if you have a traefik ingress

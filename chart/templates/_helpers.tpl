@@ -63,6 +63,15 @@ Cache specific labels
 {{- end -}}
 
 
+{{/*
+ingress labels
+*/}}
+{{- define "ingress.labels" -}}
+{{- range $key, $val := .Values.ingress.labels -}}
+{{ $key }}: {{ $val }}
+{{- end }}
+{{- end -}}
+
 
 
 

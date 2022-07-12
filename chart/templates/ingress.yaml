@@ -25,10 +25,10 @@ spec:
     {{- end }}
 {{- end }}
   rules:
-    - host: {{ .Values.ingress.hosts }}
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: "/"
+          - path: {{ .Values.ingress.path | quote }}
             backend:
               serviceName: "{{ include "inventree.fullname" . }}-proxy"
               servicePort: 80
