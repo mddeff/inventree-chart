@@ -32,7 +32,16 @@ proxy:
     pullPolicy:
 
 ingress:
+  enabled: false
 
+
+#traefik ingressRoute - only use if you have a traefik ingress
+ingressRoute:
+  enabled: false
+  labels:
+  tls: []
+  hosts: ""
+  annotations:
 
 
 
