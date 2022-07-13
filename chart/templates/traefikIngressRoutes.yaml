@@ -1,0 +1,53 @@
+{{- if .Values.ingressRoute.enabled -}}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "inventree.fullname" . }}
+  labels:
+    {{- include "ingressRoute.labels" . | nindent 4 }}
+  {{- with .Values.ingressRoute.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  entryPoints:
+    - {{ .Values.ingressRoute.entryPoint }}
+  routes:
+  - match: Host(`{{ .Values.ingressRoute.host }}`)
+    kind: Rule
+    {{- with .Values.ingressRoute.httpMiddlewares }}
+    middlewares:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    services:
+    - name: "{{ include "inventree.fullname" . }}-proxy"
+      port: 80
+
+---
+{{- if .Values.ingressRoute.tls.enabled -}}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "inventree.fullname" . }}-tls
+  labels:
+    {{- include "ingressRoute.labels" . | nindent 4 }}
+  {{- with .Values.ingressRoute.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  entryPoints:
+    - {{ .Values.ingressRoute.tlsEntryPoint }}
+  routes:
+  - match: Host(`{{ .Values.ingressRoute.host }}`)
+    kind: Rule
+    services:
+    - name: "{{ include "inventree.fullname" . }}-proxy"
+      port: 80
+  {{- with .Values.ingressRoute.tls.config }}
+  tls:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
+
+{{- end }}

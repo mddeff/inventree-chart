@@ -1,3 +1,18 @@
 ingress:
+  enabled: false
+  host: "inventree.zeroent.int"
+  annonations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web, web-secured
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.tls.certresolver: internalacme
+
+ingressRoute:
   enabled: true
   host: "inventree.zeroent.int"
+  tls:
+    enabled: true
+    config:
+      certResolver: internalacme
+  httpMiddlewares:
+    - name: httpsredirect
+      namespace: default

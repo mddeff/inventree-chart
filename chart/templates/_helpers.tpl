@@ -73,6 +73,14 @@ ingress labels
 {{- end -}}
 
 
+{{/*
+traefik ingressRoute labels
+*/}}
+{{- define "ingressRoute.labels" -}}
+{{- range $key, $val := .Values.ingressRoute.labels -}}
+{{ $key }}: {{ $val }}
+{{- end }}
+{{- end -}}
 
 
 
