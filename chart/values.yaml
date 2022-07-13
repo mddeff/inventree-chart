@@ -12,7 +12,7 @@ inventree:
 
     # clear text initial password for admin user - ignored if `passwordFromSecret` is set
     password: "admin"
-    # optionally, you can choose to set the password from a Kubernetes secret
+    # optionally, you can choose to set the password from an external (to this helm chart) Kubernetes secret
     passwordFromSecret:
       secretName:
       namespace:
