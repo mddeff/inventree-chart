@@ -14,7 +14,7 @@ inventree:
     password: "admin"
     # optionally, you can choose to set the password from a Kubernetes secret
     passwordFromSecret:
-      sercretName:
+      secretName:
       namespace:
 
 server:
