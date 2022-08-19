@@ -12,6 +12,6 @@ data:
   INVENTREE_PLUGINS_ENABLED: "False"
   INVENTREE_ADMIN_USER: {{ .Values.inventree.admin.username }}
   INVENTREE_ADMIN_EMAIL: {{ .Values.inventree.admin.email }}
-{{- if not .Values.inventree.admin.passwordFromSecret.secretName }}
+{{- if .Values.inventree.admin.passwordFromSecret.secretName -}}
   INVENTREE_ADMIN_PASSWORD: {{ .Values.inventree.admin.password }}
-{{- end }}
+{{- end -}}
