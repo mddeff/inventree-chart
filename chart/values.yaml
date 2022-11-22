@@ -8,7 +8,7 @@ inventree:
     email: "admin@localhost"
     # You can set the admin password either way below.  
     # Regardless of the method, it is suggested you rotate the password once 
-    # the app is started as this value will be accesisble via an environment variable.
+    # the app is started as this value will be accessible via an environment variable.
 
     # clear text initial password for admin user - ignored if `passwordFromSecret` is set
     password: "admin"
@@ -20,12 +20,12 @@ inventree:
 server:
   image:
     repository: "inventree/inventree"
-    tag: "0.7.4"
+    tag: "0.8.4"
     pullPolicy:
 worker:
   image:
     repository: "inventree/inventree"
-    tag: "0.7.4"
+    tag: "0.8.4"
     pullPolicy:
 redis:
   labels:
